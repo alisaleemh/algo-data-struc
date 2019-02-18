@@ -1,4 +1,4 @@
-//package week4;
+package week4;
 
 import java.io.*;
 import java.util.*;
@@ -9,16 +9,13 @@ public class Problem1 {
 			
 		while (start <= end) {
 			int mid = (start + end)/2;
-		
 			if (array[mid] == target) {
 				return mid;
 			}
-			
-			if (target < array[mid] ) {
+			else if (target < array[mid] ) {
 				end = mid-1;
 			}
-			
-			if (target > array[mid]) {
+			else if (target > array[mid]) {
 				start = mid+1;
 			}
 			
