@@ -1,62 +1,85 @@
 package week4;
 
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Problem2 {
 	
-	
-	private static int[] mergeSort(int[] a) {
-		if( a.length < 2 ) return a;
+	private static int checkMajority(int[] a) {
+		int majIndex = 0;
+		int count = 1;
 		
-		
-		int m = a.length/2;
-		int [] left = new int[m];
-		int [] right = new int[a.length-m];
-		//arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
-		System.arraycopy(a, 0, left, 0, left.length);
-		System.arraycopy(a, m, right, 0, right.length);
-
-		mergeSort(left);
-		mergeSort(right);
-		
-		return merge(a, left, right);
-	}
-	
-	private static int[] merge(int[] result, int[] left, int[] right) {
-		
-		
-		int lefti = 0;
-		int righti = 0;
-		int resulti = 0;
-		
-		while (lefti < left.length && righti < right.length) {
+		for (int i = 0; i < a.length; i++) {
+			if (a[majIndex] == a[i]) count++ ;
+			else count-- ;
 			
-			if (left[lefti] >= right[righti]) {
-				result[resulti++] = right[righti++];
+			if (count == 0) {
+				majIndex = i;
+				count = 1;
 			}
-			else {
-				result[resulti++] = left[lefti++];
-		}
 		}
 		
-		while (lefti < left.length) {
-			result[resulti++] = left[lefti++];
+		int candidate = a[majIndex];
+		int majCounter = 0;
+		for (int i = 0; i < a.length; i++) {
+			
+			if (a[i] == candidate) {
+				majCounter++;
+			}
 		}
 		
-		while (righti < right.length) {
-			result[resulti++] = right[righti++];
+		if (majCounter > a.length/2) {
+			return 1;
 		}
-		
-		return result;
+		else
+			return 0;
 	}
 	
 	public static void main(String[] args) {
-		int[] array = {17,4,6};
 		
-		int[] result = mergeSort(array);
-		System.out.println(array.length);
-		System.out.println(Arrays.toString(result));
+	    FastScanner scanner = new FastScanner(System.in);
+	    int n = scanner.nextInt();
+	    int[] a = new int[n];
+	    for (int i = 0; i < n; i++) {
+	        a[i] = scanner.nextInt();
+	    }
+
+		
+		System.out.println(checkMajority(a));
 		
 		
 	}
+
+
+static class FastScanner {
+    BufferedReader br;
+    StringTokenizer st;
+
+    FastScanner(InputStream stream) {
+        try {
+            br = new BufferedReader(new InputStreamReader(stream));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    String next() {
+        while (st == null || !st.hasMoreTokens()) {
+            try {
+                st = new StringTokenizer(br.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return st.nextToken();
+    }
+
+    int nextInt() {
+        return Integer.parseInt(next());
+    }
 }
+}
+
